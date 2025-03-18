@@ -11,8 +11,9 @@ class TodoListTests(unittest.TestCase):
         app.config["DEBUG"] = False
         app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app_test.db"
         self.app = app.test_client()
-        db.drop_all()
-        db.create_all()
+        with app.app_context():
+            db.drop_all()
+            db.create_all()
         self.create_todo()
         self.assertEqual(app.debug, False)
     
