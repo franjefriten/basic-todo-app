@@ -9,7 +9,7 @@ class TodoListTests(unittest.TestCase):
     def setUp(self):
         app.config["TESTING"] = True
         app.config["DEBUG"] = False
-        app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app_test.db"
+        app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{TEST_DB}"
         self.app = app.test_client()
         with app.app_context():
             db.drop_all()
@@ -30,7 +30,7 @@ class TodoListTests(unittest.TestCase):
         response = self.app.get("/")
         self.assertEqual(
             response.data,
-            b'[{"id":1, "todo":"Go to school"},{"id":2, "todo":"Peerse"}]\n'
+            b'[{"id":1,"todo":"Go to school"},{"id":2,"todo":"Peerse"}]\n'
         )
         self.assertEqual(response.status_code, 200)
 
@@ -40,7 +40,7 @@ class TodoListTests(unittest.TestCase):
         response = self.app.post("/todo-create", data=json.dumps(json_data))
         # print(response.data)
 
-        self.assertEqual(response.data, b'{"201":"todo created successfully"}\n')
+        self.assertEqual(response.data, b'{"201":"todo succesfully created"}\n')
 
     def test_update_todo_endpoint(self):
     
